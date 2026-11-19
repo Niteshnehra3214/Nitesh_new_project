@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TechNova 2026 | NGFCET Event Portal</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+  <!-- Navigation -->
+  <header class="navbar">
+    <div class="logo">Tech<span>Nova</span> 2026</div>
+    <nav class="nav-links">
+      <a href="#events">Events</a>
+      <a href="#schedule">Schedule</a>
+      <a href="#my-registrations">My Registrations (<span id="regCountBadge">0</span>)</a>
+      <button id="themeToggle" class="theme-btn" title="Toggle Dark Mode">Dark Mode</button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-content">
+      <span class="badge">NGF College of Engineering &amp; Technology • Palwal</span>
+      <h1>Annual Inter-College Tech &amp; Cultural Fest</h1>
+      <p>Compete in Data Science hackathons, coding battles, cultural showcases, and campus e-sports. Register online and download your instant pass.</p>
+      <div class="hero-stats">
+        <div class="stat-box">
+          <strong id="totalEventsCount">8</strong>
+          <span>Live Events</span>
+        </div>
+        <div class="stat-box">
+          <strong>3 Days</strong>
+          <span>Nov 25 – 27, 2026</span>
+        </div>
+        <div class="stat-box">
+          <strong>Rs. 50,000+</strong>
+          <span>Prize Pool</span>
+        </div>
+      </div>
+      <a href="#events" class="cta-btn">Explore Events</a>
+    </div>
+  </section>
+
+  <!-- Events Section -->
+  <main class="container" id="events">
+    <div class="section-header">
+      <h2>Explore Fest Events</h2>
+      <p>Filter by category or search by event name, skill, or venue.</p>
+    </div>
+
+    <div class="controls">
+      <div class="filter-btns">
+        <button class="filter-btn active" data-category="All">All Events</button>
+        <button class="filter-btn" data-category="Technical">Technical</button>
+        <button class="filter-btn" data-category="Cultural">Cultural</button>
+        <button class="filter-btn" data-category="Gaming">Gaming</button>
+        <button class="filter-btn" data-category="Workshop">Workshop</button>
+      </div>
+      <input type="text" id="searchInput" class="search-box" placeholder="Search events (e.g., Data, Java, Music)..." />
+    </div>
+
+    <div class="events-grid" id="eventsGrid"></div>
+  </main>
+
+  <!-- Schedule Section -->
+  <section class="schedule-section" id="schedule">
+    <div class="container">
+      <div class="section-header">
+        <h2>3-Day Fest Schedule</h2>
+        <p>Plan your participation across labs, seminar halls, and main stage.</p>
+      </div>
+      <div class="table-wrapper">
+        <table class="schedule-table">
+          <thead>
+            <tr>
+              <th>Day &amp; Date</th>
+              <th>Time</th>
+              <th>Event</th>
+              <th>Category</th>
+              <th>Venue</th>
+            </tr>
+          </thead>
+          <tbody id="scheduleBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- My Registrations Section -->
+  <section class="container" id="my-registrations">
+    <div class="section-header">
+      <h2>My Registered Events</h2>
+      <p>Saved automatically in your browser. You can cancel or review your passes anytime.</p>
+    </div>
+    <div id="registrationsList" class="reg-grid"></div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <p><strong>TechNova 2026</strong> • Department of Computer Applications, NGFCET</p>
+    <p class="sub-footer">Developed as a College Web Engineering Project (HTML5, CSS3, Vanilla JavaScript)</p>
+  </footer>
+
+  <!-- Registration Modal -->
+  <div class="modal-overlay" id="modalOverlay">
+    <div class="modal">
+      <button class="close-x" id="closeModalX">&times;</button>
+      <span class="tag" id="modalCategoryTag">Technical</span>
+      <h2 id="modalEventTitle">Event Registration</h2>
+      <p class="modal-sub" id="modalEventMeta">Date &amp; Venue</p>
+      
+      <form id="regForm">
+        <div class="form-group">
+          <label for="studentName">Full Name *</label>
+          <input type="text" id="studentName" required placeholder="Enter your full name" />
+        </div>
+        <div class="form-group">
+          <label for="rollNo">College Roll Number *</label>
+          <input type="text" id="rollNo" required placeholder="e.g., 24BCA104" />
+        </div>
+        <div class="form-group">
+          <label for="email">Email Address *</label>
+          <input type="email" id="email" required placeholder="student@college.edu.in" />
+        </div>
+        <div class="form-group">
+          <label for="course">Course &amp; Department *</label>
+          <select id="course">
+            <option value="BCA (Data Science)">BCA (Data Science)</option>
+            <option value="BCA (General)">BCA (General)</option>
+            <option value="B.Tech (CSE)">B.Tech (CSE)</option>
+            <option value="MCA">MCA</option>
+            <option value="BBA / B.Com">BBA / B.Com</option>
+          </select>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-cancel" id="cancelModalBtn">Cancel</button>
+          <button type="submit" class="btn-register">Confirm Registration</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast"></div>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
