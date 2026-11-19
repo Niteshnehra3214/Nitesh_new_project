@@ -4,27 +4,501 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>TechNova 2026 | NGFCET Event Portal</title>
-  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --accent: #38bdf8;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --surface-alt: #f1f5f9;
+      --text: #0f172a;
+      --muted: #64748b;
+      --border: #e2e8f0;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
+    }
+
+    body.dark-mode {
+      --bg: #0b1120;
+      --surface: #1e293b;
+      --surface-alt: #0f172a;
+      --text: #f8fafc;
+      --muted: #94a3b8;
+      --border: #334155;
+      --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Roboto, system-ui, -apple-system, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      transition: background-color 0.25s, color 0.25s;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(15, 23, 42, 0.95);
+      backdrop-filter: blur(10px);
+      color: #fff;
+      padding: 0.9rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid #1e293b;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+    }
+
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+    }
+
+    .logo span { color: var(--accent); }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.1rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-links a {
+      color: #cbd5e1;
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .nav-links a:hover { color: #fff; }
+
+    .theme-btn {
+      background: #1e293b;
+      color: #e2e8f0;
+      border: 1px solid #334155;
+      padding: 0.38rem 0.8rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* Hero */
+    .hero {
+      background: radial-gradient(circle at top right, #2563eb, #1e3a8a 45%, #0f172a 100%);
+      color: #fff;
+      text-align: center;
+      padding: 4rem 1.25rem;
+    }
+
+    .hero-content {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.16);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      color: #bae6fd;
+      padding: 0.35rem 1rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 {
+      font-size: 2.4rem;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      font-weight: 800;
+    }
+
+    .hero p {
+      color: #dbeafe;
+      font-size: 1.02rem;
+      margin-bottom: 2rem;
+    }
+
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+    }
+
+    .stat-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(6px);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 0.8rem 1.3rem;
+      border-radius: 12px;
+      min-width: 130px;
+    }
+
+    .stat-box strong {
+      display: block;
+      font-size: 1.25rem;
+      color: var(--accent);
+    }
+
+    .stat-box span {
+      font-size: 0.8rem;
+      color: #e2e8f0;
+    }
+
+    .cta-btn {
+      display: inline-block;
+      background: #fff;
+      color: #1e3a8a;
+      padding: 0.8rem 2rem;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      transition: transform 0.2s;
+    }
+
+    .cta-btn:hover { transform: translateY(-2px); }
+
+    /* Sections */
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3rem 1.25rem;
+    }
+
+    .section-header { margin-bottom: 1.75rem; }
+    .section-header h2 { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.3rem; }
+    .section-header p { color: var(--muted); font-size: 0.95rem; }
+
+    /* Controls */
+    .controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.75rem;
+    }
+
+    .filter-btns {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .filter-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      transition: all 0.2s;
+    }
+
+    .filter-btn.active,
+    .filter-btn:hover {
+      background: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .search-box {
+      padding: 0.65rem 1rem;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      border-radius: 8px;
+      width: 280px;
+      font-size: 0.92rem;
+    }
+
+    /* Event Cards */
+    .events-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(295px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-shadow: var(--shadow);
+      transition: transform 0.2s;
+    }
+
+    .card:hover { transform: translateY(-4px); }
+
+    .card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .tag {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      color: var(--primary);
+      background: rgba(37, 99, 235, 0.12);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+    }
+
+    .team-size {
+      font-size: 0.78rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    .card h3 { font-size: 1.2rem; margin-bottom: 0.45rem; }
+    .card p { color: var(--muted); font-size: 0.9rem; margin-bottom: 1.2rem; }
+
+    .meta {
+      font-size: 0.84rem;
+      margin-bottom: 1.1rem;
+      border-top: 1px solid var(--border);
+      padding-top: 0.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .btn-register {
+      width: 100%;
+      padding: 0.72rem;
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-register:hover { background: var(--primary-dark); }
+    .btn-registered { background: var(--success); }
+    .btn-registered:hover { background: #15803d; }
+
+    /* Schedule Table */
+    .schedule-section {
+      background: var(--surface-alt);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      background: var(--surface);
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow);
+    }
+
+    .schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    .schedule-table th,
+    .schedule-table td {
+      padding: 0.95rem 1.1rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+    }
+
+    .schedule-table th {
+      background: #0f172a;
+      color: #fff;
+      font-weight: 600;
+    }
+
+    /* Registrations */
+    .reg-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .reg-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--success);
+      border-radius: 10px;
+      padding: 1.2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .reg-card h4 { font-size: 1.08rem; margin: 0.4rem 0; }
+    .reg-card p { font-size: 0.86rem; color: var(--muted); margin-bottom: 0.2rem; }
+
+    .btn-cancel-reg {
+      margin-top: 0.8rem;
+      padding: 0.42rem 0.85rem;
+      background: transparent;
+      color: var(--danger);
+      border: 1px solid var(--danger);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-cancel-reg:hover { background: var(--danger); color: #fff; }
+
+    .empty-state {
+      background: var(--surface);
+      border: 1px dashed var(--border);
+      padding: 2rem;
+      border-radius: 12px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.72);
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      z-index: 200;
+    }
+
+    .modal {
+      background: var(--surface);
+      color: var(--text);
+      padding: 1.8rem;
+      border-radius: 14px;
+      width: 100%;
+      max-width: 430px;
+      position: relative;
+      border: 1px solid var(--border);
+    }
+
+    .close-x {
+      position: absolute;
+      top: 0.9rem;
+      right: 1.1rem;
+      background: none;
+      border: none;
+      font-size: 1.6rem;
+      color: var(--muted);
+      cursor: pointer;
+    }
+
+    .modal h2 { margin-top: 0.4rem; margin-bottom: 0.2rem; font-size: 1.35rem; }
+    .modal-sub { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.2rem; }
+
+    .form-group { margin-bottom: 0.95rem; }
+    .form-group label { display: block; font-size: 0.84rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 0.62rem;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      border-radius: 8px;
+      font-size: 0.92rem;
+    }
+
+    .modal-actions { display: flex; gap: 0.75rem; margin-top: 1.3rem; }
+    .btn-cancel {
+      flex: 1;
+      padding: 0.68rem;
+      background: var(--surface-alt);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: #0f172a;
+      color: #fff;
+      padding: 0.85rem 1.25rem;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(15px);
+      transition: all 0.3s ease;
+      z-index: 300;
+    }
+
+    .toast.show { opacity: 1; transform: translateY(0); }
+
+    footer {
+      text-align: center;
+      padding: 2.2rem 1rem;
+      background: #0f172a;
+      color: #cbd5e1;
+      font-size: 0.92rem;
+    }
+
+    .sub-footer { font-size: 0.8rem; color: #64748b; margin-top: 0.3rem; }
+
+    @media (max-width: 640px) {
+      .hero h1 { font-size: 1.85rem; }
+      .search-box { width: 100%; }
+    }
+  </style>
 </head>
 <body>
 
-  <!-- Navigation -->
   <header class="navbar">
     <div class="logo">Tech<span>Nova</span> 2026</div>
     <nav class="nav-links">
       <a href="#events">Events</a>
       <a href="#schedule">Schedule</a>
-      <a href="#my-registrations">My Registrations (<span id="regCountBadge">0</span>)</a>
-      <button id="themeToggle" class="theme-btn" title="Toggle Dark Mode">Dark Mode</button>
+      <a href="#my-registrations">Passes (<span id="regCountBadge">0</span>)</a>
+      <button id="themeToggle" class="theme-btn">Dark Mode</button>
     </nav>
   </header>
 
-  <!-- Hero Section -->
   <section class="hero">
     <div class="hero-content">
       <span class="badge">NGF College of Engineering &amp; Technology • Palwal</span>
       <h1>Annual Inter-College Tech &amp; Cultural Fest</h1>
-      <p>Compete in Data Science hackathons, coding battles, cultural showcases, and campus e-sports. Register online and download your instant pass.</p>
+      <p>Compete in Data Science hackathons, coding battles, cultural showcases, and campus e-sports. Register online and generate your instant pass.</p>
       <div class="hero-stats">
         <div class="stat-box">
           <strong id="totalEventsCount">8</strong>
@@ -43,7 +517,6 @@
     </div>
   </section>
 
-  <!-- Events Section -->
   <main class="container" id="events">
     <div class="section-header">
       <h2>Explore Fest Events</h2>
@@ -64,7 +537,6 @@
     <div class="events-grid" id="eventsGrid"></div>
   </main>
 
-  <!-- Schedule Section -->
   <section class="schedule-section" id="schedule">
     <div class="container">
       <div class="section-header">
@@ -88,22 +560,19 @@
     </div>
   </section>
 
-  <!-- My Registrations Section -->
   <section class="container" id="my-registrations">
     <div class="section-header">
-      <h2>My Registered Events</h2>
+      <h2>My Registered Passes</h2>
       <p>Saved automatically in your browser. You can cancel or review your passes anytime.</p>
     </div>
     <div id="registrationsList" class="reg-grid"></div>
   </section>
 
-  <!-- Footer -->
   <footer>
     <p><strong>TechNova 2026</strong> • Department of Computer Applications, NGFCET</p>
-    <p class="sub-footer">Developed as a College Web Engineering Project (HTML5, CSS3, Vanilla JavaScript)</p>
+    <p class="sub-footer">College Web Engineering Project (HTML5, CSS3, JavaScript)</p>
   </footer>
 
-  <!-- Registration Modal -->
   <div class="modal-overlay" id="modalOverlay">
     <div class="modal">
       <button class="close-x" id="closeModalX">&times;</button>
@@ -142,10 +611,198 @@
     </div>
   </div>
 
-  <!-- Toast Notification -->
   <div id="toast" class="toast"></div>
 
-  <script src="js/data.js"></script>
-  <script src="js/app.js"></script>
+  <script>
+    const EVENTS_DATA = [
+      { id: "EVT-101", title: "Data Sprint: Analytics Challenge", category: "Technical", teamSize: "1 - 2 Members", desc: "Clean, analyze, and visualize an uncleaned dataset within 90 minutes using Python, R, or Excel.", day: "Day 1 (Nov 25, 2026)", time: "10:00 AM - 12:00 PM", venue: "Computer Lab 2" },
+      { id: "EVT-102", title: "CodeRush: Java & C++ Arena", category: "Technical", teamSize: "Individual", desc: "Solve algorithmic challenges, OOP debugging tasks, and logic puzzles against the clock.", day: "Day 1 (Nov 25, 2026)", time: "01:00 PM - 03:00 PM", venue: "Seminar Hall A" },
+      { id: "EVT-103", title: "Prompt & AI Agents Workshop", category: "Workshop", teamSize: "Open to All", desc: "Hands-on session on building practical Generative AI workflows and automated web tools.", day: "Day 1 (Nov 25, 2026)", time: "03:30 PM - 05:00 PM", venue: "Auditorium" },
+      { id: "EVT-104", title: "Nukkad Natak: Social Awareness", category: "Cultural", teamSize: "6 - 12 Members", desc: "High-energy street play competition spotlighting youth empowerment and social themes.", day: "Day 2 (Nov 26, 2026)", time: "10:30 AM - 01:00 PM", venue: "Central Courtyard" },
+      { id: "EVT-105", title: "BGMI Campus Showdown", category: "Gaming", teamSize: "4 Members (Squad)", desc: "Inter-department Battle Royale championship with live spectator screen and point table.", day: "Day 2 (Nov 26, 2026)", time: "02:00 PM - 05:00 PM", venue: "Activity Zone" },
+      { id: "EVT-106", title: "UI/UX & Poster Designathon", category: "Technical", teamSize: "Individual", desc: "Design an impactful brand poster and responsive landing page mockup on a surprise topic.", day: "Day 3 (Nov 27, 2026)", time: "10:00 AM - 12:30 PM", venue: "Design & Media Lab" },
+      { id: "EVT-107", title: "Acoustic Jam & Folk Beats", category: "Cultural", teamSize: "1 - 4 Members", desc: "Live singing and instrumental showcase celebrating Haryanvi folk and contemporary music.", day: "Day 3 (Nov 27, 2026)", time: "02:00 PM - 04:30 PM", venue: "Open Air Stage" },
+      { id: "EVT-108", title: "Valorant 5v5 Tactical Cup", category: "Gaming", teamSize: "5 Members (Team)", desc: "Knockout tactical shooter tournament hosted on high-speed campus LAN.", day: "Day 3 (Nov 27, 2026)", time: "11:00 AM - 04:00 PM", venue: "Computer Lab 4" }
+    ];
+
+    let currentCategory = "All";
+    let selectedEvent = null;
+    let registrations = JSON.parse(localStorage.getItem("technova_registrations")) || [];
+
+    const eventsGrid = document.getElementById("eventsGrid");
+    const scheduleBody = document.getElementById("scheduleBody");
+    const registrationsList = document.getElementById("registrationsList");
+    const regCountBadge = document.getElementById("regCountBadge");
+    const searchInput = document.getElementById("searchInput");
+    const modalOverlay = document.getElementById("modalOverlay");
+    const regForm = document.getElementById("regForm");
+    const themeToggle = document.getElementById("themeToggle");
+
+    function init() {
+      document.getElementById("totalEventsCount").innerText = EVENTS_DATA.length;
+      renderEvents(EVENTS_DATA);
+      renderSchedule();
+      renderRegistrations();
+      setupListeners();
+
+      if (localStorage.getItem("technova_theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        themeToggle.innerText = "Light Mode";
+      }
+    }
+
+    function renderEvents(list) {
+      eventsGrid.innerHTML = "";
+      if (list.length === 0) {
+        eventsGrid.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;">No events match your search criteria.</div>`;
+        return;
+      }
+
+      list.forEach((ev) => {
+        const isRegistered = registrations.some((r) => r.eventId === ev.id);
+        const card = document.createElement("div");
+        card.className = "card";
+        card.innerHTML = `
+          <div>
+            <div class="card-top">
+              <span class="tag">${ev.category}</span>
+              <span class="team-size">${ev.teamSize}</span>
+            </div>
+            <h3>${ev.title}</h3>
+            <p>${ev.desc}</p>
+          </div>
+          <div>
+            <div class="meta">
+              <div><strong>Schedule:</strong> ${ev.day} • ${ev.time}</div>
+              <div><strong>Venue:</strong> ${ev.venue}</div>
+            </div>
+            <button class="btn-register ${isRegistered ? "btn-registered" : ""}" onclick="openModal('${ev.id}')">
+              ${isRegistered ? "Registered ✓ (Add Another)" : "Register Now"}
+            </button>
+          </div>
+        `;
+        eventsGrid.appendChild(card);
+      });
+    }
+
+    function renderSchedule() {
+      scheduleBody.innerHTML = EVENTS_DATA.map((ev) => `
+        <tr>
+          <td><strong>${ev.day}</strong></td>
+          <td>${ev.time}</td>
+          <td>${ev.title}</td>
+          <td><span class="tag">${ev.category}</span></td>
+          <td>${ev.venue}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderRegistrations() {
+      regCountBadge.innerText = registrations.length;
+      if (registrations.length === 0) {
+        registrationsList.innerHTML = `<div class="empty-state" style="grid-column: 1/-1;">You haven't registered for any events yet. Click <strong>Register Now</strong> on any event above!</div>`;
+        return;
+      }
+
+      registrationsList.innerHTML = registrations.map((reg, index) => `
+        <div class="reg-card">
+          <span class="tag">${reg.passId}</span>
+          <h4>${reg.eventTitle}</h4>
+          <p><strong>Participant:</strong> ${reg.studentName} (${reg.rollNo})</p>
+          <p><strong>Course:</strong> ${reg.course}</p>
+          <p><strong>Schedule:</strong> ${reg.day} • ${reg.venue}</p>
+          <button class="btn-cancel-reg" onclick="cancelRegistration(${index})">Cancel Registration</button>
+        </div>
+      `).join("");
+    }
+
+    function applyFilters() {
+      const query = searchInput.value.toLowerCase().trim();
+      const filtered = EVENTS_DATA.filter((ev) => {
+        const matchesCategory = currentCategory === "All" || ev.category === currentCategory;
+        const matchesSearch = ev.title.toLowerCase().includes(query) || ev.desc.toLowerCase().includes(query) || ev.venue.toLowerCase().includes(query);
+        return matchesCategory && matchesSearch;
+      });
+      renderEvents(filtered);
+    }
+
+    function openModal(eventId) {
+      selectedEvent = EVENTS_DATA.find((e) => e.id === eventId);
+      if (!selectedEvent) return;
+      document.getElementById("modalCategoryTag").innerText = selectedEvent.category;
+      document.getElementById("modalEventTitle").innerText = selectedEvent.title;
+      document.getElementById("modalEventMeta").innerText = `${selectedEvent.day} | ${selectedEvent.time} | ${selectedEvent.venue}`;
+      modalOverlay.style.display = "flex";
+    }
+
+    function closeModal() {
+      modalOverlay.style.display = "none";
+      regForm.reset();
+      selectedEvent = null;
+    }
+
+    function handleRegistration(e) {
+      e.preventDefault();
+      if (!selectedEvent) return;
+      const newReg = {
+        passId: "PASS-" + Math.floor(1000 + Math.random() * 9000),
+        eventId: selectedEvent.id,
+        eventTitle: selectedEvent.title,
+        day: selectedEvent.day,
+        venue: selectedEvent.venue,
+        studentName: document.getElementById("studentName").value.trim(),
+        rollNo: document.getElementById("rollNo").value.trim().toUpperCase(),
+        email: document.getElementById("email").value.trim(),
+        course: document.getElementById("course").value
+      };
+      registrations.push(newReg);
+      localStorage.setItem("technova_registrations", JSON.stringify(registrations));
+      showToast(`Registered for ${selectedEvent.title}! Pass ID: ${newReg.passId}`);
+      closeModal();
+      applyFilters();
+      renderRegistrations();
+    }
+
+    function cancelRegistration(index) {
+      const removed = registrations.splice(index, 1)[0];
+      localStorage.setItem("technova_registrations", JSON.stringify(registrations));
+      showToast(`Cancelled registration for ${removed.eventTitle}`);
+      applyFilters();
+      renderRegistrations();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.innerText = msg;
+      toast.classList.add("show");
+      setTimeout(() => toast.classList.remove("show"), 3200);
+    }
+
+    function setupListeners() {
+      document.querySelectorAll(".filter-btn").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          document.querySelectorAll(".filter-btn").forEach((b) => b.classList.remove("active"));
+          btn.classList.add("active");
+          currentCategory = btn.dataset.category;
+          applyFilters();
+        });
+      });
+
+      searchInput.addEventListener("input", applyFilters);
+      regForm.addEventListener("submit", handleRegistration);
+      document.getElementById("closeModalX").addEventListener("click", closeModal);
+      document.getElementById("cancelModalBtn").addEventListener("click", closeModal);
+      modalOverlay.addEventListener("click", (e) => { if (e.target === modalOverlay) closeModal(); });
+
+      themeToggle.addEventListener("click", () => {
+        document.body.classList.toggle("dark-mode");
+        const isDark = document.body.classList.contains("dark-mode");
+        themeToggle.innerText = isDark ? "Light Mode" : "Dark Mode";
+        localStorage.setItem("technova_theme", isDark ? "dark" : "light");
+      });
+    }
+
+    init();
+  </script>
 </body>
 </html>
